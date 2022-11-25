@@ -9,7 +9,7 @@ This is my portfolio website where a client can read about me, my career, skills
 
 # The main features of this website are:
 
-** Front-end**
+**Front-end**
 - [x] Responsive home section using flexbox.
 - [x] Responsive about section using flexbox.
 - [x] Responsive services section using flexbox.
@@ -21,7 +21,7 @@ This is my portfolio website where a client can read about me, my career, skills
 - [x] navbar with toggle menu bar effect.
 - [x] CV download
 
-** Back-end**
+**Back-end**
 - [x] Sign up page
 - [x] login page
 - [x] contact form
