@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My portfolio website</title>
+    <!-- <title>My portfolio website</title> -->
     <link rel="shortcut icon" type="image/png" href="images/my_logo3.jpg" />
     <!-- font awesome cdnjs link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <!-- custom css file link -->
     <link rel="stylesheet" href="../static/styles.css">
+    <title>{% block title %}Home{% endblock %}</title>
 </head>
 
 <body>
@@ -59,10 +60,12 @@
         <p class="info">i am a front-end developer</p>
         <p class="text">I specialized in some other skills that cantained in this website</p>
         <a href="#about" class="btn">about me</a>
-        <a href="../templates/sign up.html" class="btn1">Sign up</a>
-        <a href="../templates/login.html" class="btn1">Login</a>
+        <a href="/sign_up" class="btn1">Sign up</a>
+        <a href="/login" class="btn1">Login</a>
+        <!-- <a href="../templates/sign up.html" class="btn1">Sign up</a> -->
+        <!-- <a href="../templates/login.html" class="btn1">Login</a> -->
     </div>
-
+    
     <div class="image">
         <img src="../static/images/picblack_seat-rm.png" alt="">
     </div>
@@ -360,18 +363,7 @@
 
 <!-- custom css file link -->
 <script src="../static/js/script.js"></script>
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycby5L-0IrBqLbdfuCK7iy-25XpglEsVoD230pIq-s4acrf_362oSiQZZkPGj3bGu2AeB/exec'
-    const form = document.forms['submit-to-google-sheet']
-  
-    form.addEventListener('submit', e => {
-      e.preventDefault()
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => console.log('Success!', response))
-        .catch(error => console.error('Error!', error.message))
-    })
-  </script>
-
+<!-- <div class="container">{% block override %} {% endblock %}</div> -->
 </body>
 
 </html>

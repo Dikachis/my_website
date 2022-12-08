@@ -1,69 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+from my_portfolio import db
+from flask_login import login_user, login_required, logout_user, current_user
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My portfolio website</title>
-    <link rel="shortcut icon" type="image/png" href="images/my_logo3.jpg" />
-    <!-- font awesome cdnjs link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <!-- custom css file link -->
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
+auth = Blueprint('auth', __name__)
 
-<body>
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password1 = request.form.get('password')
+        first_name = request.form.get('first_name')
+        
+        user = Users.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash('Login successfully!', category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, try again.', category='error')
+        else:
+            flash('Email does not exist.', category='error')
+    
+    return render_template("login.html")
 
-<!-- contact section starts  -->
+@auth.route('/logout')
+def logout():
+    return "<p>Logout</p>"
 
-<section class="contact" id="contact">
+@auth.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        first_name = request.form.get('firstName')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
-    <h1 class="heading"> contact <span> me </span> </h1>
+        # user = User.query.filter_by(email=email).first()
+        # if user:
+            # flash('Email already exists.', category='error')
+        if len(email) < 4:
+            flash('Email must be greater than 3 characters.', category='error')
+        elif len(first_name) < 2:
+            flash('Email must be greater than 1 characters.', category='error')
+        elif password1 != password2:
+            flash('passwords don\'t match', category='error')
+        elif len(password1) < 7:
+            flash('password must be at least 7 characters.', category='error')
+        else:
+            #add user to database
+            try:
+                new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method='sha256'))
+                db.session.execute(users.insert().values(new_user))
+                # db.session.add(new_user)
+                db.session.commit()
+                # login_user(user, remember=True)
+            except Exception:
+                flash('Account created!', category='success')
+                # to redirect the user to homepage
+                return redirect(url_for('auth.login'))
+                # return redirect(url_for('views.home'))
 
-    <div class="icons-container">
-
-        <div class="icons">
-            <i class="fas fa-envelope"></i>
-            <h3>my email</h3>
-            <p>shaikhanas@gmail.com</p>
-            <p>anasbhai@gmail.com</p>
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-phone"></i>
-            <h3>my number</h3>
-            <p>+123-456-7890</p>
-            <p>+111-222-3333</p>
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-map-marker-alt"></i>
-            <h3>my address</h3>
-            <p>ajis class, jogeshwaris west, mumbai, india - 400104</p>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <form action="">
-
-            <input type="text" placeholder="name" class="box">
-            <input type="email" placeholder="email" class="box">
-            <input type="number" placeholder="number" class="box">
-
-            <textarea name="" placeholder="message" id="" cols="30" rows="10"></textarea>
-
-            <input type="submit" class="btn" value="send message">
-
-        </form>
-
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8070160.006544811!2d4.176393853690297!3d9.017353615985062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0baf7da48d0d%3A0x99a8fe4168c50bc8!2sNigeria!5e0!3m2!1sen!2sng!4v1668814642732!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> 
-    </div>
+    return render_template("sign up.html")
 
 
-</section>
 
-</body>
-</html>
+
+
+
+
+
+
+    from my_portfolio import db
+from flask_sqlalchemy  import SQLAlchemy
+from sqlalchemy import Column, Integer, String
+from flask_login import UserMixin
+from sqlalchemy.sql import func
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.String(10000))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True)
+    password = db.Column(db.String(150))
+    first_name = db.Column(db.String(150))
+    notes = db.relationship('Note')

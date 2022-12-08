@@ -35,7 +35,7 @@ body {
 	background:#fff;
 	/*border:1px solid red;*/
 	/* height:500px; */
-	padding:40px;
+	padding:35px;
 	box-shadow: 0 0 10px #ccc;
 	float: right;
 	margin-right: 45%;
@@ -59,11 +59,11 @@ body {
 
 .formCont .formHeader h1{
     font-size: x-large;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .formField{
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 
 .formField label{
