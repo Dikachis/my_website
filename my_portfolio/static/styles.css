@@ -335,9 +335,9 @@ header .social_icon a:hover{
     border-radius: .8rem;
 }
 
-.home .content .h1 {
+.home .content .hi {
     font-size: 2rem;
-    color:var(--main-color);
+    color:rgb(201, 4, 69);
 }
 
 .home .content h3 {
@@ -389,13 +389,14 @@ header .social_icon a:hover{
 
 .about .row-1 .content h3{
     color: #333;
-    font-size: 3.5rem;
+    font-size: 2.7rem;
 }
 
 .about .row-1 .content p{
     color: #666;
     font-size: 1.7rem;
     padding: .5rem 0;
+    text-align: justify;
 }
 
 .about .row-1 .content .box-container{
@@ -419,6 +420,20 @@ header .social_icon a:hover{
     gap:1.5rem;
     align-items: center;
 }
+
+.skill_head h1 {
+    font-size: 3rem;
+    margin-top: 2rem;
+    padding-bottom: 0.1rem;
+    color: #111;
+    text-transform: uppercase;
+}
+
+.skill_head h1 span{
+    color:var(--main-color);
+    text-transform: uppercase;
+}
+
 
 .about .row-2 .skills{
     flex:1 1 40rem;
@@ -467,7 +482,7 @@ header .social_icon a:hover{
     width: 0%;
 }
 
-.about .row-2 .box-container{
+/*.about .row-2 .box-container{
     flex:1 1 40rem;
     display: flex;
     flex-wrap: wrap;
@@ -491,7 +506,7 @@ header .social_icon a:hover{
     color:#666;
     font-size: 1.7rem;
     padding-top: .5rem;
-}
+}*/
 
 .service .box-container{
     display: flex;
